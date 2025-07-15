@@ -21,7 +21,23 @@ app.use(express.static(path.join(__dirname, 'client', 'build')));
 
 // Handle React routing, return all requests to React app
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
+  const indexPath = path.join(__dirname, 'client', 'build', 'index.html');
+  if (require('fs').existsSync(indexPath)) {
+    res.sendFile(indexPath);
+  } else {
+    // Fallback if build doesn't exist
+    res.send(`
+      <!DOCTYPE html>
+      <html>
+      <head><title>MERN Task Manager</title></head>
+      <body>
+        <h1>MERN Task Manager</h1>
+        <p>Building... Please refresh in a moment.</p>
+        <p>API is running at: <a href="/api/auth/me">/api/auth/me</a></p>
+      </body>
+      </html>
+    `);
+  }
 });
 
 // Connect to MongoDB
