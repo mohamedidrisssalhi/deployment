@@ -1,0 +1,8 @@
+# Azure Deployment Configuration
+# This file configures how Azure will deploy your MERN application
+
+# Build script that will run during deployment
+npm run build
+
+# Start script
+npm start
